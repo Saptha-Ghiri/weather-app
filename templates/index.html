@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        @keyframes zoom-in-zoom-out {
+ 0% {
+   transform: scale(1, 1);
+ }
+ 50% {
+   transform: scale(1.5, 1.5);
+ }
+ 100% {
+   transform: scale(1, 1);
+ }
+}
+
+   </style>
+</head>
+<body onload="changeLanguage()">
+    <div class="w-full h-screen bg-white fixed flex items-center justify-center z-50" id="load" style="animation: zoom-in-zoom-out 1.5s ease infinite;">
+        <img class="absolute" src="{{ url_for('static', filename='img/logo-bg.png') }}" alt="">
+</div>
+    <div class="h-screen w-full flex items-center justify-center bg-center" style="background-image: url('{{ url_for('static', filename='img/b-8.jpg') }}');background-size: cover;">
+        <div class=" bg-white bg-opacity-80 rounded-xl" style="height: 95%;width: 90%;">
+            <div class="bg-green-800 rounded-t-xl flex justify-between text-white text-base px-8 items-center" style="height: 7%;">
+            <div id="home" class="hover:bg-white hover:text-green-800 h-full flex items-center justify-center p-3 transition duration-300 ease-in-out"><a href="/home">Home</a></div>
+            <div class="hover:bg-white hover:text-green-800 h-full p-4 flex items-center justify-center transition duration-300 ease-in-out"><a  href="/cam"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 18q2.075 0 3.538-1.462Q17 15.075 17 13q0-2.075-1.462-3.538Q14.075 8 12 8Q9.925 8 8.463 9.462Q7 10.925 7 13q0 2.075 1.463 3.538Q9.925 18 12 18Zm0-2q-1.25 0-2.125-.875T9 13q0-1.25.875-2.125T12 10q1.25 0 2.125.875T15 13q0 1.25-.875 2.125T12 16Zm6-6q.425 0 .712-.288Q19 9.425 19 9t-.288-.713Q18.425 8 18 8t-.712.287Q17 8.575 17 9t.288.712Q17.575 10 18 10ZM4 21q-.825 0-1.412-.587Q2 19.825 2 19V7q0-.825.588-1.412Q3.175 5 4 5h3.15L8.7 3.325q.15-.15.337-.238Q9.225 3 9.425 3h5.15q.2 0 .388.087q.187.088.337.238L16.85 5H20q.825 0 1.413.588Q22 6.175 22 7v12q0 .825-.587 1.413Q20.825 21 20 21Zm16-2V7h-4.05l-1.825-2h-4.25L8.05 7H4v12Zm-8-6Z"/></svg></a></div>
+            <div class="hover:bg-white hover:text-green-800 h-full p-4 flex items-center justify-center transition duration-300 ease-in-out"><a  href="/monitor"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M8 17.175V6.825q0-.425.3-.713t.7-.287q.125 0 .263.037t.262.113l8.15 5.175q.225.15.338.375t.112.475q0 .25-.112.475t-.338.375l-8.15 5.175q-.125.075-.262.113T9 18.175q-.4 0-.7-.288t-.3-.712m2-1.825L15.25 12L10 8.65z"/></svg></a></div>
+            <div id="userid">user ID:787</div>
+            <div class="h-full"><button class="hover:bg-white hover:text-green-800 h-full flex justify-center items-center p-3 transition duration-300 ease-in-out" onclick="changeLanguage()">English/தமிழ்</button></div>
+            </div>
+            <div class="space-y-4 p-4 relative" style="height: 93%;">
+                <!-- <div class="absolute h-10 w-10 bg-black" style="top: 320px;left: 1400px;"></div> -->
+                <div class="h-1/2 flex space-x-4">
+                    <div class="w-1/4 h-full flex justify-center items-center flex-col font-bold text-red-600 border border-green-800 rounded-xl"><svg xmlns="http://www.w3.org/2000/svg" width="102" height="109" viewBox="0 0 32 32"><path fill="currentColor" d="M30 18h-6a2.002 2.002 0 0 1-2-2V6a2.002 2.002 0 0 1 2-2h6v2h-6v10h6Z"/><circle cx="18" cy="4" r="2" fill="currentColor"/><path fill="currentColor" d="M10 20.184V12H8v8.184a3 3 0 1 0 2 0Z"/><path fill="currentColor" d="M9 30a6.993 6.993 0 0 1-5-11.89V7a5 5 0 0 1 10 0v11.11A6.993 6.993 0 0 1 9 30ZM9 4a3.003 3.003 0 0 0-3 3v11.983l-.332.299a5 5 0 1 0 6.664 0L12 18.983V7a3.003 3.003 0 0 0-3-3Z"/></svg><h1 id="temp" class="text-2xl">Temperature</h1><h1 class="text-2xl" id="val1"></h1></div>
+                    <div class="w-1/4 h-full flex justify-center items-center flex-col font-bold relative text-blue-700 border border-green-800 rounded-xl"><svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-3.425 0-5.712-2.35T4 13.8q0-1.55.7-3.1t1.75-2.975Q7.5 6.3 8.725 5.05T11 2.875q.2-.2.463-.287T12 2.5q.275 0 .538.088t.462.287q1.05.925 2.275 2.175t2.275 2.675Q18.6 9.15 19.3 10.7t.7 3.1q0 3.5-2.287 5.85T12 22m2.5-4q.625 0 1.063-.437T16 16.5q0-.625-.437-1.062T14.5 15q-.625 0-1.062.438T13 16.5q0 .625.438 1.063T14.5 18m-5.75-.75q.3.3.7.3t.7-.3l5.1-5.1q.3-.3.3-.7t-.3-.7q-.3-.3-.712-.3t-.713.3L8.75 15.825q-.3.3-.3.713t.3.712M9.5 13q.625 0 1.063-.437T11 11.5q0-.625-.437-1.062T9.5 10q-.625 0-1.062.438T8 11.5q0 .625.438 1.063T9.5 13"/></svg><h1 id="humd" class="text-2xl">Humidity</h1><h1 class="text-2xl" id="val2"></h1></div>
+                    <div class="w-1/4 h-full flex justify-center items-center flex-col font-bold text-yellow-900 border border-green-800 rounded-xl" ><svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 32 32"><path fill="currentColor" d="M11 16v-5h1a4.005 4.005 0 0 0 4-4V4h-3a3.978 3.978 0 0 0-2.747 1.107A6.003 6.003 0 0 0 5 2H2v3a6.007 6.007 0 0 0 6 6h1v5H2v2h14v-2zm2-10h1v1a2.002 2.002 0 0 1-2 2h-1V8a2.002 2.002 0 0 1 2-2M8 9a4.005 4.005 0 0 1-4-4V4h1a4.005 4.005 0 0 1 4 4v1zM2 21h14v2H2zm0 5h14v2H2zm23 4a4.986 4.986 0 0 1-3-8.98V15a3 3 0 0 1 6 0v6.02A4.986 4.986 0 0 1 25 30m0-16a1.001 1.001 0 0 0-1 1v7.13l-.497.29A2.968 2.968 0 0 0 22 25a3 3 0 0 0 6 0a2.968 2.968 0 0 0-1.503-2.581L26 22.13V15a1.001 1.001 0 0 0-1-1"/></svg><h1 id="soil-temp" class="text-2xl">Soil Temperature</h1><h1 class="text-2xl" id="val3"></h1></div>
+                    <div class="w-1/4 h-full flex justify-center items-center flex-col font-bold text-yellow-900 border border-green-800 rounded-xl"><svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 32 32"><path fill="currentColor" d="M24.5 30a5.202 5.202 0 0 1-4.626-8.08l3.616-5.382a1.217 1.217 0 0 1 2.02 0l3.55 5.277a5.492 5.492 0 0 1 .94 2.936A5.385 5.385 0 0 1 24.5 30m0-11.38l-2.936 4.367A3.208 3.208 0 0 0 24.5 28a3.386 3.386 0 0 0 3.5-3.249a3.435 3.435 0 0 0-.63-1.867zM11 16v-5h1a4.005 4.005 0 0 0 4-4V4h-3a3.978 3.978 0 0 0-2.747 1.107A6.003 6.003 0 0 0 5 2H2v3a6.007 6.007 0 0 0 6 6h1v5H2v2h14v-2zm2-10h1v1a2.002 2.002 0 0 1-2 2h-1V8a2.002 2.002 0 0 1 2-2M8 9a4.005 4.005 0 0 1-4-4V4h1a4.005 4.005 0 0 1 4 4v1zM2 21h14v2H2zm0 5h14v2H2z"/></svg><h1 id="soil-mois" class="text-2xl">Soil Moisture</h1><h1 class="text-2xl" id="val4"></h1></div>
+                </div>
+                <div class="h-1/2 max-w-full rounded-b-xl flex  space-x-4">
+                    <div class="md:w-1/4 w-full h-5/6 flex justify-center items-center flex-col font-bold border border-green-800 rounded-xl text-green-900" style="height: 95%;"><svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path stroke-linecap="round" d="M20.693 17.33a9 9 0 1 0-17.386 0"/><path d="M12.766 15.582c.487.71.144 1.792-.766 2.417c-.91.626-2.043.558-2.53-.151c-.52-.756-2.314-5.007-3.403-7.637c-.205-.495.4-.911.79-.542c2.064 1.96 5.39 5.157 5.909 5.913Z"/><path stroke-linecap="round" d="M12 6v2m-6.364.636L7.05 10.05m11.314-1.414L16.95 10.05m3.743 7.28l-1.931-.518m-15.455.518l1.931-.518"/></g></svg><h1 id="press" class="text-2xl">Pressure</h1><h1 class="text-2xl" id="val5"></h1></div>
+                    <div class="md:w-1/4 w-full h-5/6 flex justify-center items-center flex-col font-bold border border-green-800 rounded-xl" style="height: 95%;"><svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 256 256"><path fill="currentColor" d="M182 184a30 30 0 0 1-30 30c-12.9 0-25.36-8.38-29.63-19.92a6 6 0 0 1 11.26-4.16C136.13 196.69 144.2 202 152 202a18 18 0 0 0 0-36H40a6 6 0 0 1 0-12h112a30 30 0 0 1 30 30M150 72a30 30 0 0 0-30-30c-12.9 0-25.36 8.38-29.63 19.92a6 6 0 1 0 11.26 4.16C104.13 59.31 112.2 54 120 54a18 18 0 0 1 0 36H24a6 6 0 0 0 0 12h96a30 30 0 0 0 30-30m58 2c-12.9 0-25.36 8.38-29.63 19.92a6 6 0 1 0 11.26 4.16C192.13 91.31 200.2 86 208 86a18 18 0 0 1 0 36H32a6 6 0 0 0 0 12h176a30 30 0 0 0 0-60"/></svg><h1 id="wind" class="text-2xl">Wind Speed</h1><h1 class="text-2xl" id="val6"></h1></div>
+                    <div class="md:w-1/4 w-full h-5/6 flex justify-center items-center flex-col font-bold border border-green-800 rounded-xl text-gray-700" style="height: 95%;"><svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 24 24"><path fill="currentColor" d="M19.19 12.07c.5-.53.81-1.25.81-2.07c0-1.7-1.3-3.16-3-3.16h-2.8C14.2 4.17 12.03 2 9.36 2c-2.05 0-3.8 1.28-4.51 3.08A3.967 3.967 0 0 0 1 9.04A3.97 3.97 0 0 0 4.96 13H8.1c-.06.33-.1.66-.1 1h-.5C5.57 14 4 15.57 4 17.5S5.57 21 7.5 21h11c2.5 0 4.5-2 4.5-4.5c0-2.24-1.66-4.09-3.81-4.43M18.5 19h-11c-.83 0-1.5-.67-1.5-1.5S6.67 16 7.5 16H10v-2c0-1.93 1.57-3.5 3.5-3.5S17 12.07 17 14h1.5a2.5 2.5 0 0 1 0 5"/></svg><h1 id="cloud" class="text-2xl">Overcast clouds</h1><h1 class="text-2xl" id="val7"></h1></div>
+                    <div class="md:w-1/4 w-full h-5/6 flex justify-center items-center flex-col font-bold border border-green-800 rounded-xl" style="height: 95%;"><h1 id="pre" class="text-2xl">Predicted Wheather</h1><img id="predicted_img" class="w-36 h-36" src="" alt=""><h1 class="text-2xl" id="predicted_value"></h1></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+   const englishText = {
+  userid:"User ID",
+            home: "Home",
+            monitor:"Monitor",
+            temperature: "Temperature",
+            humd: "Humidity",
+            soiltemp: "Soil Temperature",
+            soilmois: "Soil Moisture",
+            pressure:"Pressure",
+            wind:"Wind Speed",
+            cloud:"Cloud",
+            pre:"Predicted Wheather"
+        };
+
+        const tamilText = {
+          userid:"பயனர் ஐடி ",
+            home: "முகப்பு பக்கம்",
+            monitor:"கண்காணிப்பு",
+            temperature: "டிகிரி செல்சியஸ் வெப்பநிலை",
+            humd: "ஈரப்பதம்:",
+            soiltemp: "மண்ணின் வெப்பநிலை",
+            soilmois: "மண்ணின் ஈரப்பதம்",
+            pressure:"அழுத்தம்",
+            wind:"காற்றின் வேகம்",
+            cloud:"மேகம்",
+            pre:"கணிக்கப்பட்ட வானிலை:",
+        };
+
+        let currentLanguage = "english"; 
+
+        function changeLanguage() {
+            if (currentLanguage === "english") {
+                currentLanguage = "tamil";
+                updateText(tamilText);
+            } else {
+                currentLanguage = "english";
+                updateText(englishText);
+            }
+        }
+        function updateText(languageText) {
+            // document.getElementById("home").textContent = languageText.home;
+            // document.getElementById("page-name").textContent = languageText.monitor;
+            document.getElementById("temp").textContent = languageText.temperature;
+            document.getElementById("humd").textContent = languageText.humd;
+            document.getElementById("soil-temp").textContent = languageText.soiltemp;
+            document.getElementById("soil-mois").textContent = languageText.soilmois;
+            document.getElementById("press").textContent = languageText.pressure;
+            document.getElementById("wind").textContent = languageText.wind;
+            document.getElementById("cloud").textContent = languageText.cloud;
+            document.getElementById("pre").textContent = languageText.pre;
+        }
+      function updateValue() {
+    $.get('/moni_value', function(data) {
+        console.log('Received Data:', data);
+        $('#val1').html(data.temp+' °C');
+        $('#val2').html(data.humd+' %');
+        $('#val3').html(data.temp+' °C');
+        $('#val4').html(data.humd+' %');
+        $('#val5').html(data.pre+' hPa');
+        $('#val6').html(data.speed+'  m/s');
+        $('#val7').html(data.clo);
+        var imageElement = document.getElementById("predicted_img");
+        var predicted_value = document.getElementById("predicted_value");
+        var cloud = document.getElementById("val7");
+
+        if (currentLanguage === "english") {
+        cloud.innerHTML = data.clo;
+    }
+        else{
+            cloud.innerHTML = data.tam_clo;
+        }
+
+        if (data.predicted_whe=='rainy'){
+        imageElement.src = "{{ url_for('static', filename='img/rainy-bg.png') }}";
+        imageElement.alt = "Rainy";
+        if (currentLanguage === "english") {
+        predicted_value.innerHTML = "Rainy";
+    } else {
+        predicted_value.innerHTML = "மழை பெய்யும்";
+    }
+      }else if(data.predicted_whe=="sunny"){
+        imageElement.src = "{{ url_for('static', filename='img/sunny-bg.png') }}";
+        imageElement.alt = "Sunny";
+        if (currentLanguage === "english") {
+        predicted_value.innerHTML = "Sunny";
+    } else {
+        predicted_value.innerHTML = "வெயில்";
+    }
+      }
+        setTimeout(updateValue, 1000);
+    })
+}
+updateValue();
+             setTimeout(function () {
+        $("#load").hide();
+    }, 5000);
+</script>
+</html>
