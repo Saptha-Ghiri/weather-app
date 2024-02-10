@@ -29,8 +29,10 @@
         <div class=" bg-white bg-opacity-80 rounded-xl" style="height: 95%;width: 90%;">
             <div class="bg-green-800 rounded-t-xl flex justify-between text-white text-base px-8 items-center" style="height: 7%;">
             <div id="home" class="hover:bg-white hover:text-green-800 h-full flex items-center justify-center p-3 transition duration-300 ease-in-out"><a href="/home">Home</a></div>
-            <div class="hover:bg-white hover:text-green-800 h-full p-4 flex items-center justify-center transition duration-300 ease-in-out"><a  href="/cam"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 18q2.075 0 3.538-1.462Q17 15.075 17 13q0-2.075-1.462-3.538Q14.075 8 12 8Q9.925 8 8.463 9.462Q7 10.925 7 13q0 2.075 1.463 3.538Q9.925 18 12 18Zm0-2q-1.25 0-2.125-.875T9 13q0-1.25.875-2.125T12 10q1.25 0 2.125.875T15 13q0 1.25-.875 2.125T12 16Zm6-6q.425 0 .712-.288Q19 9.425 19 9t-.288-.713Q18.425 8 18 8t-.712.287Q17 8.575 17 9t.288.712Q17.575 10 18 10ZM4 21q-.825 0-1.412-.587Q2 19.825 2 19V7q0-.825.588-1.412Q3.175 5 4 5h3.15L8.7 3.325q.15-.15.337-.238Q9.225 3 9.425 3h5.15q.2 0 .388.087q.187.088.337.238L16.85 5H20q.825 0 1.413.588Q22 6.175 22 7v12q0 .825-.587 1.413Q20.825 21 20 21Zm16-2V7h-4.05l-1.825-2h-4.25L8.05 7H4v12Zm-8-6Z"/></svg></a></div>
-            <div class="hover:bg-white hover:text-green-800 h-full p-4 flex items-center justify-center transition duration-300 ease-in-out"><a  href="/monitor"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M8 17.175V6.825q0-.425.3-.713t.7-.287q.125 0 .263.037t.262.113l8.15 5.175q.225.15.338.375t.112.475q0 .25-.112.475t-.338.375l-8.15 5.175q-.125.075-.262.113T9 18.175q-.4 0-.7-.288t-.3-.712m2-1.825L15.25 12L10 8.65z"/></svg></a></div>
+            <form method="POST" action="/update">
+                <div class="hover:bg-white hover:text-green-800 h-full p-4 flex items-center justify-center transition duration-300 ease-in-out"> <input type="text" id="city" name="city" required></div>
+                <div class="hover:bg-white hover:text-green-800 h-full p-4 flex items-center justify-center transition duration-300 ease-in-out"><input type="submit" value="Search"></div>
+            </form>
             <div id="userid">user ID:787</div>
             <div class="h-full"><button class="hover:bg-white hover:text-green-800 h-full flex justify-center items-center p-3 transition duration-300 ease-in-out" onclick="changeLanguage()">English/தமிழ்</button></div>
             </div>
@@ -104,47 +106,93 @@
             document.getElementById("cloud").textContent = languageText.cloud;
             document.getElementById("pre").textContent = languageText.pre;
         }
-      function updateValue() {
-    $.get('/moni_value', function(data) {
-        console.log('Received Data:', data);
-        $('#val1').html(data.temp+' °C');
-        $('#val2').html(data.humd+' %');
-        $('#val3').html(data.temp+' °C');
-        $('#val4').html(data.humd+' %');
-        $('#val5').html(data.pre+' hPa');
-        $('#val6').html(data.speed+'  m/s');
-        $('#val7').html(data.clo);
-        var imageElement = document.getElementById("predicted_img");
-        var predicted_value = document.getElementById("predicted_value");
-        var cloud = document.getElementById("val7");
+//       function updateValue() {
+//     $.get('/moni_value', function(data) {
+//         console.log('Received Data:', data);
+//         $('#val1').html(data.temp+' °C');
+//         $('#val2').html(data.humd+' %');
+//         $('#val3').html(data.temp+' °C');
+//         $('#val4').html(data.humd+' %');
+//         $('#val5').html(data.pre+' hPa');
+//         $('#val6').html(data.speed+'  m/s');
+//         $('#val7').html(data.clo);
+//         var imageElement = document.getElementById("predicted_img");
+//         var predicted_value = document.getElementById("predicted_value");
+//         var cloud = document.getElementById("val7");
 
-        if (currentLanguage === "english") {
-        cloud.innerHTML = data.clo;
-    }
-        else{
-            cloud.innerHTML = data.tam_clo;
-        }
+//         if (currentLanguage === "english") {
+//         cloud.innerHTML = data.clo;
+//     }
+//         else{
+//             cloud.innerHTML = data.tam_clo;
+//         }
 
-        if (data.predicted_whe=='rainy'){
-        imageElement.src = "{{ url_for('static', filename='img/rainy-bg.png') }}";
-        imageElement.alt = "Rainy";
-        if (currentLanguage === "english") {
-        predicted_value.innerHTML = "Rainy";
-    } else {
-        predicted_value.innerHTML = "மழை பெய்யும்";
+//         if (data.predicted_whe=='rainy'){
+//         imageElement.src = "{{ url_for('static', filename='img/rainy-bg.png') }}";
+//         imageElement.alt = "Rainy";
+//         if (currentLanguage === "english") {
+//         predicted_value.innerHTML = "Rainy";
+//     } else {
+//         predicted_value.innerHTML = "மழை பெய்யும்";
+//     }
+//       }else if(data.predicted_whe=="sunny"){
+//         imageElement.src = "{{ url_for('static', filename='img/sunny-bg.png') }}";
+//         imageElement.alt = "Sunny";
+//         if (currentLanguage === "english") {
+//         predicted_value.innerHTML = "Sunny";
+//     } else {
+//         predicted_value.innerHTML = "வெயில்";
+//     }
+//       }
+//         setTimeout(updateValue, 1000);
+//     })
+// }
+    function updateValue() {
+        // Get the city name from the input field
+        var cityName = $('#city').val();
+        // Make an AJAX GET request to /moni_value with the city name parameter
+        $.get('/moni_value?city=' + cityName, function(data) {
+            console.log('Received Data:', data);
+            // Update the HTML elements with the received data
+            $('#val1').html(data.temp + ' °C');
+            $('#val2').html(data.humd + ' %');
+            $('#val3').html(data.temp + ' °C');
+            $('#val4').html(data.humd + ' %');
+            $('#val5').html(data.pre + ' hPa');
+            $('#val6').html(data.speed + ' m/s');
+            $('#val7').html(data.clo);
+            var imageElement = document.getElementById("predicted_img");
+            var predicted_value = document.getElementById("predicted_value");
+            var cloud = document.getElementById("val7");
+
+            if (currentLanguage === "english") {
+                cloud.innerHTML = data.clo;
+            } else {
+                cloud.innerHTML = data.tam_clo;
+            }
+
+            if (data.predicted_whe == 'rainy') {
+                imageElement.src = "{{ url_for('static', filename='img/rainy-bg.png') }}";
+                imageElement.alt = "Rainy";
+                if (currentLanguage === "english") {
+                    predicted_value.innerHTML = "Rainy";
+                } else {
+                    predicted_value.innerHTML = "மழை பெய்யும்";
+                }
+            } else if (data.predicted_whe == "sunny") {
+                imageElement.src = "{{ url_for('static', filename='img/sunny-bg.png') }}";
+                imageElement.alt = "Sunny";
+                if (currentLanguage === "english") {
+                    predicted_value.innerHTML = "Sunny";
+                } else {
+                    predicted_value.innerHTML = "வெயில்";
+                }
+            }
+            // Call updateValue function recursively after 1 second
+            setTimeout(updateValue, 1000);
+        })
     }
-      }else if(data.predicted_whe=="sunny"){
-        imageElement.src = "{{ url_for('static', filename='img/sunny-bg.png') }}";
-        imageElement.alt = "Sunny";
-        if (currentLanguage === "english") {
-        predicted_value.innerHTML = "Sunny";
-    } else {
-        predicted_value.innerHTML = "வெயில்";
-    }
-      }
-        setTimeout(updateValue, 1000);
-    })
-}
+   
 updateValue();
              setTimeout(function () {
         $("#load").hide();

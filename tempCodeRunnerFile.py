@@ -1,8 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import requests
 from googletrans import Translator
-global city
-city = "chennai"
+
 app = Flask(__name__)
 
 def translate_to_tamil(text):
@@ -17,17 +16,17 @@ def index():
 @app.route('/update', methods=['GET', 'POST'])
 def update():
     if request.method == 'POST':
-        global city
         city = request.form['city']
-        print("Received city name:", city)  # Add this print statement
     return render_template("index.html")
-
 
 @app.route('/moni_value')
 def moni_value():
     api_key = '6a2b15925e074c1f139105aa6f22db53'
-    print(city)
-    base_url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
+    city_name = request.args.get('city')
+    if not city_name:
+        return jsonify({'error': 'City name parameter is missing'}), 400
+    print(city_name)
+    base_url = f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
     response = requests.get(base_url)
     weather_data = response.json()
     temp = int(weather_data['main']['temp'] - 273)
