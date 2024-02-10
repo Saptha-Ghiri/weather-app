@@ -1,4 +1,8 @@
 Flask==2.1.0
 requests==2.26.0
 googletrans==4.0.0-rc1
+<<<<<<< HEAD
 Werkzeug==2.2.2
+=======
+Werkzeug==2.2.2
+>>>>>>> 6804e2a22d42b18104bc17d41feb70f634a55960
