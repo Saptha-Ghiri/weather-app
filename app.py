@@ -36,4 +36,4 @@ def moni_value():
     speed = weather_data['wind']['speed']
     clo = weather_data['weather'][0]['description']
     col_tamil = translate_to_tamil(clo)
-    return jsonify({'temp': temp, 'humd': humd, 'pre': pre, 'speed': speed, 'clo': clo, 'tam_clo': col_tamil, 'predicted_whe': 'rainy'})
+    return jsonify({'temp': temp, 'humd': humd, 'pre': pre, 'speed': speed, 'clo': clo, 'tam_clo': col_tamil, 'predicted_whe': 'rainy','city_name':city})
