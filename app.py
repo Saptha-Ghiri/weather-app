@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import requests
 from googletrans import Translator
 global city
-city = "chennai"
+city = ""
 app = Flask(__name__)
 
 def translate_to_tamil(text):
@@ -22,18 +22,22 @@ def update():
         print("Received city name:", city)  # Add this print statement
     return render_template("index.html")
 
-
 @app.route('/moni_value')
 def moni_value():
     api_key = '6a2b15925e074c1f139105aa6f22db53'
-    print(city)
     base_url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
     response = requests.get(base_url)
-    weather_data = response.json()
-    temp = int(weather_data['main']['temp'] - 273)
-    pre = weather_data['main']['pressure']
-    humd = weather_data['main']['humidity']
-    speed = weather_data['wind']['speed']
-    clo = weather_data['weather'][0]['description']
-    col_tamil = translate_to_tamil(clo)
-    return jsonify({'temp': temp, 'humd': humd, 'pre': pre, 'speed': speed, 'clo': clo, 'tam_clo': col_tamil, 'predicted_whe': 'rainy','city_name':city})
+    if response.status_code == 404 or len(city)==0:
+        return jsonify({'error':"City is not found"})
+    try:
+        weather_data = response.json()
+        temp = int(weather_data['main']['temp'] - 273)
+        pre = weather_data['main']['pressure']
+        humd = weather_data['main']['humidity']
+        speed = weather_data['wind']['speed']
+        clo = weather_data['weather'][0]['description']
+        vis = weather_data['visibility']
+        col_tamil = translate_to_tamil(clo)
+        return jsonify({'temp': temp, 'humd': humd, 'pre': pre, 'speed': speed, 'clo': clo, 'tam_clo': col_tamil, 'predicted_whe': 'rainy','city_name':city,"visibility":vis})
+    except Exception as e:
+        return jsonify({'error':"City is not found"})
