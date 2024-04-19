@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import requests
 from googletrans import Translator
 global city
-
+import cv2
 city = ""
 app = Flask(__name__)
 
@@ -45,7 +45,29 @@ def moni_value():
 
 
 # Route to display the video stream on the webpage
+# Function to capture video from the camera
+def capture_video():
+    camera = cv2.VideoCapture(0)  # 0 represents the default camera
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    camera.release()
 
+# Route to display the video stream on the webpage
+@app.route('/cam')
+def cam():
+    return render_template('cam.html')
+
+# Function to stream the video
+@app.route('/video_feed')
+def video_feed():
+    return Response(capture_video(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     
 
