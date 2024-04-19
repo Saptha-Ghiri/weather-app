@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import requests
 from googletrans import Translator
 global city
-import cv2
+
 city = ""
 app = Flask(__name__)
 
