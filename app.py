@@ -56,9 +56,9 @@ def capture_video():
     camera.release()
 
 # Route to display the video stream on the webpage
-@app.route('/index')
+@app.route('/cam')
 def index():
-    return render_template('index.html')
+    return render_template('cam.html')
 
 # Function to stream the video
 @app.route('/video_feed')
