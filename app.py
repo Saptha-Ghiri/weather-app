@@ -58,14 +58,7 @@ def capture_video():
     camera.release()
 
 # Route to display the video stream on the webpage
-@app.route('/cam')
-def cam():
-    return render_template('cam.html')
 
-# Function to stream the video
-@app.route('/video_feed')
-def video_feed():
-    return Response(capture_video(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 
