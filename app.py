@@ -13,7 +13,7 @@ def translate_to_tamil(text):
 
 @app.route('/')
 def index():
-    return render_template('cam.html')
+    return render_template('index.html')
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
